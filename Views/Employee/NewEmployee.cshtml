@@ -1,0 +1,32 @@
+﻿@model EmployeeModel
+
+<form class="col-6" asp-controller="Employee" asp-action="NewEmployee" method="post">
+    @Html.HiddenFor(Model => Model.ID)
+  <div class="mb-3">
+    <label asp-for="Name" class="form-label">Name</label>
+    <input asp-for="Name" type="text" class="form-control" >
+    @Html.ValidationMessageFor(Model => Model.Name)
+  </div>
+  <div class="mb-3">
+    <label asp-for="Surname" class="form-label">Surname</label>
+    <input asp-for="Surname" type="text" class="form-control" >
+    @Html.ValidationMessageFor(Model => Model.Surname)
+  </div>
+  <div class="mb-3">
+    <label asp-for="YearOfBirth" class="form-label">Year of birth</label>
+    <input asp-for="YearOfBirth" type="number" class="form-control" >
+    @Html.ValidationMessageFor(Model => Model.YearOfBirth)
+  </div>
+  <div class="mb-3">
+    <label asp-for="Department" class="form-label">Department</label>
+    <input asp-for="Department" type="text" class="form-control" >
+    @Html.ValidationMessageFor(Model => Model.Department)
+  </div>
+  <div class="mb-3">
+    <label asp-for="Position" class="form-label">Position</label>
+    <input asp-for="Position" type="text" class="form-control" >
+    @Html.ValidationMessageFor(Model => Model.Position)
+  </div>
+
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>

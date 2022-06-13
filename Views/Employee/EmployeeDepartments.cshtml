@@ -1,0 +1,17 @@
+﻿@model DepartmentModel
+
+<h1>List of departmens</h1>
+<table class="table">
+    <tr>
+        <th>Nr</th>
+        <th>Name</th>
+    </tr>
+    @for(int i=1; i<= Model.Names.Count;  i++)
+    {
+        <tr>
+            <td>@i</td>
+            <td>@Model.Names[i-1]</td>
+        </tr>
+    }
+
+</table>

@@ -5,18 +5,41 @@ namespace WebApplication1
     public static class DataBase
     {
         
-        public static List<CategoriesModel> CategoriesList = new List<CategoriesModel> {
-             new CategoriesModel { ID = 1, Name = "Computers" },
-             new CategoriesModel{ID = 2, Name = "Smart phones"},
-             new CategoriesModel { ID = 3, Name = "Tablets" }
-        };
+       public static List<EmployeeModel> EmployeeList = new List<EmployeeModel>
+       {
+           new EmployeeModel
+           {
+               ID = 1,
+               Name = "Greta",
+               Surname = "Kaminskaite",
+               YearOfBirth = 1999,
+               Position = ".NET specialist",
+               Department = "IT"
+           },
 
+            new EmployeeModel
+           {
+               ID = 2,
+               Name = "Akvile",
+               Surname = "Vas",
+               YearOfBirth = 1997,
+               Position = "JavaScript specialist",
+               Department = "IT"
+           },
 
-        public static List<ProductModel> ProductsList = new List<ProductModel>
-            {
-                new ProductModel{Name = "HP", CategoryName = "Computers", Price = 987.5},
-                new ProductModel{Name =  "Asus", CategoryName = "Computers", Price = 885.99},
-                new ProductModel { Name = "Huawei p30", CategoryName = "Smart phones", Price = 335.76 }
-            };
+             new EmployeeModel
+           {
+               ID = 3,
+               Name = "Jonas",
+               Surname = "Kaminskas",
+               YearOfBirth = 2000,
+               Position = "Finance analyst",
+               Department = "Finance"
+           }
+       };
+
+       
     }
+
+    
 }

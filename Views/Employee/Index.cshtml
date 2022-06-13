@@ -1,0 +1,24 @@
+﻿@model List<EmployeeModel>
+<h1>List of employees</h1>
+
+<table class="table">
+    <tr>
+        <th><a asp-controller="Employee" asp-action="Index" asp-route-sort="ID">ID</a></th>
+        <th>Name</th>
+        <th><a asp-controller="Employee" asp-action="Index" asp-route-sort="Surname">Surname</a></th>
+        <th>Year of birth</th>
+        <th><a asp-controller="Employee" asp-action="Index" asp-route-sort="Department">Department</a></th>
+        <th>Position</th>        
+    </tr>
+    @foreach(var employ in Model)
+    {
+        <tr>
+            <td>@employ.ID</td>
+            <td>@employ.Name</td>
+            <td>@employ.Surname</td>
+            <td>@employ.YearOfBirth</td>
+            <td>@employ.Department</td>
+            <td>@employ.Position</td>
+        </tr>
+    }
+</table>
