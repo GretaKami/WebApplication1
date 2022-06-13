@@ -1,0 +1,29 @@
+﻿@model ProductFormModel
+
+<form class="col-6" asp-controller="Product" asp-action="CreateForm" method="post">
+  @Html.HiddenFor(Model => Model.CategoriesList)
+  <div class="mb-3">
+    <label asp-for="Name" class="form-label">Product name</label>
+    <input asp-for="Name" type="text" class="form-control" >
+    @Html.ValidationMessageFor(Model => Model.Name)
+  </div>
+   <div class="mb-3">
+    <label asp-for="Description" class="form-label">Description</label>
+    <input asp-for="Description" type="text" class="form-control" >
+    @Html.ValidationMessageFor(Model => Model.Description)
+  </div>
+  <p>Product category</p>  
+  @foreach(var category in Model.CategoriesList)
+      {
+          <div class="mb-3">
+            <input asp-for="CategoryName" type="radio" id="@category.Name" value="@category.Name">
+            <label for="@category.Name">@category.Name</label> 
+          </div>
+      }
+  <div>@Html.ValidationMessageFor(Model => Model.CategoryName)</div>
+  <div class="mb-3">
+    <label asp-for="Price" class="form-label">Price</label>
+    <input asp-for="Price" type="number" class="form-control" >
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>

@@ -1,0 +1,10 @@
+﻿@model CategoriesModel
+
+<form class="col-6" asp-controller="Categories" asp-action="CreateForm" method="post">
+  @Html.HiddenFor(Model => Model.ID)
+  <div class="mb-3">
+    <label asp-for="Name" class="form-label">Category name</label>
+    <input asp-for="Name" type="text" class="form-control" >
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
