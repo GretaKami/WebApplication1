@@ -4,6 +4,8 @@ namespace WebApplication1.Models
 {
     public class ProductModel
     {
+        public int Id { get; set; }
+
         [Required]
         public string Name { get; set; }
 
@@ -15,6 +17,7 @@ namespace WebApplication1.Models
 
         [Required]
         public string CategoryName { get; set; }
+        public int CategoryId { get; set; }
 
     }
 }

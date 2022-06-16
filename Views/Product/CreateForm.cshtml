@@ -16,11 +16,11 @@
   @foreach(var category in Model.CategoriesList)
       {
           <div class="mb-3">
-            <input asp-for="CategoryName" type="radio" id="@category.Name" value="@category.Name">
-            <label for="@category.Name">@category.Name</label> 
+            <input asp-for="CategoryId" type="radio" id="@category.ID" value="@category.ID">
+            <label for="@category.ID">@category.Name</label> 
           </div>
       }
-  <div>@Html.ValidationMessageFor(Model => Model.CategoryName)</div>
+  <div>@Html.ValidationMessageFor(Model => Model.CategoryId)</div>
   <div class="mb-3">
     <label asp-for="Price" class="form-label">Price</label>
     <input asp-for="Price" type="number" class="form-control" >

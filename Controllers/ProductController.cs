@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using WebApplication1.DB;
 using WebApplication1.Models;
 
 namespace WebApplication1.Controllers
@@ -8,6 +9,7 @@ namespace WebApplication1.Controllers
         List<ProductModel> productsList;
         public ProductController()
         {
+            DataBase.GetDataFromDB();
             productsList = DataBase.ProductsList;
         }
         public IActionResult Index()
@@ -36,14 +38,27 @@ namespace WebApplication1.Controllers
         {
             if (ModelState.IsValid)
             {
-                ProductModel product = new ProductModel
+                using(var db = new WebAppContext())
                 {
-                    Name = newProduct.Name,
-                    Price = newProduct.Price,
-                    Description = newProduct.Description,
-                    CategoryName = newProduct.CategoryName
+                    var product = new Product
+                    {
+                        Name = newProduct.Name,
+                        Price = newProduct.Price,
+                        Description = newProduct.Description,
+                        CategoryId = newProduct.CategoryId
+                    };
+
+                    db.Products.Add(product);
+                    db.SaveChanges();
                 };
-                DataBase.ProductsList.Add(product);
+                //ProductModel product = new ProductModel
+                //{
+                //    Name = newProduct.Name,
+                //    Price = newProduct.Price,
+                //    Description = newProduct.Description,
+                //    CategoryName = newProduct.CategoryName
+                //};
+                //DataBase.ProductsList.Add(product);
                 return RedirectToAction("Index");
 
             }

@@ -12,9 +12,9 @@ namespace WebApplication1.Models
 
         [Required]
         public double Price { get; set; }
-
+               
         [Required]
-        public string CategoryName { get; set; }
+        public int CategoryId { get; set; }
 
         public List<CategoriesModel> CategoriesList { get; set; }
     }

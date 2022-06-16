@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using WebApplication1.DB;
 using WebApplication1.Models;
 
 namespace WebApplication1.Controllers
@@ -10,6 +11,7 @@ namespace WebApplication1.Controllers
        
         public CategoriesController()
         {
+            DataBase.GetDataFromDB();
             categoriesList = DataBase.CategoriesList;
             productsList = DataBase.ProductsList;
 
@@ -22,7 +24,7 @@ namespace WebApplication1.Controllers
         public IActionResult View(string name)
         {
             List<ProductModel> products = new List<ProductModel>();
-            //string categoryName = categoriesList[ID-1].Name;
+            
             foreach(var product in productsList)
             {
                 if(product.CategoryName == name)
@@ -39,10 +41,10 @@ namespace WebApplication1.Controllers
         [HttpGet]
         public IActionResult CreateForm()
         {
-            var category = new CategoriesModel
-            {
-                ID = DataBase.CategoriesList.Count + 1
-            };
+            var category = new CategoriesModel();
+            //{
+            //    ID = DataBase.CategoriesList.Count + 1
+            //};
 
             return View(category);
         }
@@ -52,7 +54,17 @@ namespace WebApplication1.Controllers
         {
             if (ModelState.IsValid)
             {
-                DataBase.CategoriesList.Add(category);
+                using(var db = new WebAppContext())
+                {
+                    var newCategory = new Category
+                    {
+                        Name = category.Name
+                    };
+
+                    db.Categories.Add(newCategory);
+                    db.SaveChanges();
+                }
+                //DataBase.CategoriesList.Add(category);
                 return RedirectToAction("Index");
             }
             return View(category);
