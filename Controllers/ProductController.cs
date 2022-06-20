@@ -51,15 +51,8 @@ namespace WebApplication1.Controllers
                     db.Products.Add(product);
                     db.SaveChanges();
                 };
-                //ProductModel product = new ProductModel
-                //{
-                //    Name = newProduct.Name,
-                //    Price = newProduct.Price,
-                //    Description = newProduct.Description,
-                //    CategoryName = newProduct.CategoryName
-                //};
-                //DataBase.ProductsList.Add(product);
-                return RedirectToAction("Index");
+        
+                return RedirectToAction("Index", "Home");
 
             }
             newProduct.CategoriesList = DataBase.CategoriesList;

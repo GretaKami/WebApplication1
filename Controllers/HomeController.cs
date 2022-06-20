@@ -6,16 +6,25 @@ namespace WebApplication1.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        
+        public HomeController()
         {
-            _logger = logger;
+            DataBase.GetDataFromDB();
+            
         }
 
-        public IActionResult Index()
-        {
-            return View();
+        public IActionResult Index(int? selectedCategory)
+        { 
+            var homeModel = new HomeIndexModel
+            {
+                Categories = DataBase.CategoriesList,
+                //Products = DataBase.ProductsList
+                //                   .Where(p => p.CategoryId == selectedCategory)
+                //                   .ToList(),
+                SelectedCategory = selectedCategory
+            };
+
+            return View(homeModel);
         }
 
        

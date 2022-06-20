@@ -8,5 +8,7 @@ namespace WebApplication1.Models
 
         [Required]
         public string Name { get; set; }
+
+        public List<ProductModel> Products { get; set; }
     }
 }

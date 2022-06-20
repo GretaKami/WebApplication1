@@ -18,4 +18,4 @@
         <td>@product.Price</td>
     </tr>
 </table>
-<td><a asp-area="" asp-controller="Product" asp-action="Index">Back</a> </td>
+<td><a asp-controller="Home" asp-action="Index" asp-route-selectedCategory="@product.CategoryId">Back</a> </td>

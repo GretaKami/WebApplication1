@@ -52,6 +52,8 @@ namespace WebApplication1.Controllers
         [HttpPost]
         public IActionResult CreateForm(CategoriesModel category)
         {
+            ModelState.Remove(nameof(category.Products));
+
             if (ModelState.IsValid)
             {
                 using(var db = new WebAppContext())
@@ -65,7 +67,7 @@ namespace WebApplication1.Controllers
                     db.SaveChanges();
                 }
                 //DataBase.CategoriesList.Add(category);
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Home");
             }
             return View(category);
         }
