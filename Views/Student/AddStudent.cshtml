@@ -1,0 +1,20 @@
+﻿@model Student_AddStudent_Model
+<form asp-controller="Student" asp-action="AddStudent" method="post">
+  <div class="mb-3">
+    <label asp-for="Name" class="form-label">Name</label>
+    <input asp-for="Name" type="text" class="form-control">
+  </div>
+  <div class="mb-3">
+    <label asp-for="Surname" class="form-label">Surname</label>
+    <input asp-for="Surname" type="text" class="form-control">
+  </div>
+  <div class="mb-3">
+    <label asp-for="YearOfBirth" class="form-label">Year of birth</label>
+    <input asp-for="YearOfBirth" type="number" class="form-control">
+  </div>
+  <div class="mb-3">
+    <label asp-for="Class" class="form-label">Class</label>
+    <input asp-for="Class" type="text" class="form-control">
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>

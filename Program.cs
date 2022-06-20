@@ -1,8 +1,13 @@
+using Microsoft.EntityFrameworkCore;
+using WebApplication1.Context;
 using WebApplication1.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddDbContext<EJournalDbContext>
+    (options => options.UseSqlServer(builder.Configuration.GetConnectionString("EJournalDb")));
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();

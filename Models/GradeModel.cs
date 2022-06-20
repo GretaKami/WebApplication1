@@ -2,19 +2,19 @@
 
 namespace WebApplication1.Models
 {
-    public class ProductModel
+    public class GradeModel
     {
-        [Required]
-        public string Name { get; set; }
+        public int Id { get; set; }
 
-        [MaxLength(255)]
+        [Required]
+        public int Mark { get; set; }
+
         public string Description { get; set; }
 
         [Required]
-        public double Price { get; set; }
+        public StudentModel Student { get; set; }
 
         [Required]
-        public string CategoryName { get; set; }
-
+        public SubjectModel Subject { get; set; }
     }
 }

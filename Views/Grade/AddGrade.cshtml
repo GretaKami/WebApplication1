@@ -1,0 +1,36 @@
+﻿@model Grade_AddGrade_Model
+
+<form asp-controller="Grade" asp-action="AddGrade" method="post">
+  <div class="mb-3">
+    <label asp-for="Mark" class="form-label">Grade</label>
+    <input asp-for="Mark" type="number" class="form-control" min="1" max="10">
+    @Html.ValidationMessageFor(m => m.Mark)
+  </div>
+  <div class="mb-3">
+    <label asp-for="Description" class="form-label">Description</label>
+    <input asp-for="Description" type="text" class="form-control">
+    @Html.ValidationMessageFor(m => m.Description)
+  </div>
+  <div class="mb-3">
+    <label asp-for="SubjectTitle" class="form-label">Subject</label>
+    <input asp-for="SubjectTitle" type="text" class="form-control">
+    @Html.ValidationMessageFor(m => m.SubjectTitle)
+  </div>
+   <div>
+      <p style="color:red">@Model.ErrorMessageSubject</p>
+  </div>
+  <div class="mb-3">
+    <label asp-for="StudentName" class="form-label">Student's name</label>
+    <input asp-for="StudentName" type="text" class="form-control">
+    @Html.ValidationMessageFor(m => m.StudentName)
+  </div>
+   <div class="mb-3">
+    <label asp-for="StudentSurname" class="form-label">Student's surname</label>
+    <input asp-for="StudentSurname" type="text" class="form-control">
+    @Html.ValidationMessageFor(m => m.StudentSurname)
+  </div>
+  <div>
+      <p style="color:red">@Model.ErrorMessageStudent</p>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>

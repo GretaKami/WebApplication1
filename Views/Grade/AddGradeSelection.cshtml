@@ -1,0 +1,37 @@
+﻿@model Grade_AddGradeSelection_Model
+
+<form asp-controller="Grade" asp-action="AddGradeSelection" method="post">
+  <div class="mb-3">
+    <label asp-for="Mark" class="form-label">Grade</label>
+    <input asp-for="Mark" type="number" class="form-control" min="1" max="10">
+    @Html.ValidationMessageFor(m => m.Mark)
+  </div>
+  <div class="mb-3">
+    <label asp-for="Description" class="form-label">Description</label>
+    <input asp-for="Description" type="text" class="form-control">
+    @Html.ValidationMessageFor(m => m.Description)
+  </div>
+  <div class="mb-3">
+    <label asp-for="SelectedSubjectId" class="form-label">Subject</label>
+    <select asp-for="SelectedSubjectId" class="form-select">
+            <option selected></option>
+            @foreach(var subject in Model.Subjects)
+            {
+                <option value="@subject.Id">@subject.Title</option>                
+            }
+    </select>
+    @Html.ValidationMessageFor(m => m.SelectedSubjectId)
+  </div>
+  <div class="mb-3">
+    <label asp-for="SelectedStudentId" class="form-label">Student</label>
+    <select asp-for="SelectedStudentId" class="form-select">
+            <option selected></option>
+            @foreach(var student in Model.Students)
+            {
+                <option value="@student.Id">@student.Name @student.Surname</option>                
+            }
+    </select>   
+    @Html.ValidationMessageFor(m => m.SelectedStudentId)
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>

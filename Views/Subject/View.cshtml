@@ -1,0 +1,22 @@
+﻿@model SubjectModel
+<h1>@Model.Title</h1>
+<table class="table table-stripped">
+    <tr>
+        <th>Grade</th>
+        <th>Description</th>
+        <th>Student name</th>
+        <th>Student surname</th>
+        <th>Student class</th>
+    </tr>
+    @foreach(var grade in Model.Grades)
+    {
+        <tr>
+            <td>@grade.Mark</td>
+            <td>@grade.Description</td>
+            <td>@grade.Student.Name</td>
+            <td>@grade.Student.Surname</td>
+            <td>@grade.Student.Class</td>
+        </tr>
+    }
+</table>
+<p><a asp-controller="subject" asp-action="Index" asp-route-sort="Title">Back</a></p>
