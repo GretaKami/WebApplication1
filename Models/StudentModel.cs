@@ -18,7 +18,7 @@ namespace WebApplication1.Models
         [Required]
         public string Class { get; set; }
 
-        public List<Grade_WithoutStudent_Model> Grades { get; set; }
+        public List<GradeModel> Grades { get; set; }
 
         public double AverageGrade { get; set; }
 

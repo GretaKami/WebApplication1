@@ -1,45 +1,32 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using WebApplication1.Context;
-using WebApplication1.Context.Entity;
+using DataAccess.Context;
+using DataAccess.Context.Entity;
 using WebApplication1.Models;
+using EJournalServices.Managers;
+using WebApplication1.Extensions;
 
 namespace WebApplication1.Controllers
 {
     public class GradeController : Controller
     {
-        private readonly EJournalDbContext _context;
+        private readonly IGradeManager _gradeManager;
+        private readonly IStudentManager _studentManager;
+        private readonly ISubjectManager _subjectManager;
 
-        public GradeController(EJournalDbContext context)
+        private List<GradeModel> gradeList;
+
+        public GradeController(IGradeManager gradeManager,
+            IStudentManager studentManager, ISubjectManager subjectManager)
         {
-            _context = context;
+            _gradeManager = gradeManager;
+            _studentManager = studentManager;
+            _subjectManager = subjectManager;
+
+            gradeList = _gradeManager.GetGradesFromDB().Select(g => g.ToModel())
+                .ToList();
         }
         public IActionResult Index(string sort)
-        {
-            List<GradeModel> gradeList = new List<GradeModel>();
-            using (_context)
-            {              
-                gradeList = _context.Grades.Select(g => new GradeModel
-                {
-                    Id = g.Id,
-                    Mark = g.Mark,
-                    Description = g.String,
-                    Student = new StudentModel { 
-                        Id = g.Student.Id,
-                        Name = g.Student.Name,
-                        Surname = g.Student.Surname,
-                        YearOfBirth = g.Student.YearOfBirth,
-                        Class = g.Student.Class
-                    
-                    },
-                    Subject = new SubjectModel
-                    {
-                        Id = g.Subject.Id,
-                        Title = g.Subject.Title
-                    }                 
-
-                }).ToList();
-                
-            }
+        {           
 
             if(sort == "Id")
             {
@@ -68,13 +55,11 @@ namespace WebApplication1.Controllers
 
             if (ModelState.IsValid)
             {
-                var student = new Student();
-                var subject = new Subject();
+                var student = _studentManager.GetStudentsFromDB().FirstOrDefault
+                (s => (s.Name == grade.StudentName && s.Surname == grade.StudentSurname));
 
-                student = _context.Students.FirstOrDefault
-                    (s => (s.Name == grade.StudentName && s.Surname == grade.StudentSurname));
-
-                subject = _context.Subjects.FirstOrDefault(s => s.Title == grade.SubjectTitle);
+                var subject = _subjectManager.GetSubjectsFromDB().FirstOrDefault
+                    (s => s.Title == grade.SubjectTitle);
 
                 if (student == null)
                 {
@@ -82,23 +67,16 @@ namespace WebApplication1.Controllers
                     return View(grade);
 
                 }
-                else if(subject == null)
+                else if (subject == null)
                 {
                     grade.ErrorMessageSubject = "Such subject doesn't exist";
                     return View(grade);
-                } 
+                }
                 else
                 {
-                    var newGrade = new Grade
-                    {
-                        Mark = grade.Mark,
-                        String = grade.Description,
-                        Student = student,
-                        Subject = subject
-                    };
+                    Grade newGrade = new Grade();
+                    newGrade.AddNewGradeToDb(grade, student, subject, _gradeManager);
 
-                    _context.Grades.Add(newGrade);
-                    _context.SaveChanges();
                     return RedirectToAction("Index");
                 }
                 
@@ -109,12 +87,13 @@ namespace WebApplication1.Controllers
         [HttpGet]
         public IActionResult AddGradeSelection()
         {
-            var studentList = DataBase.GetStudentsFromDb(_context);
-            var subjectList = DataBase.GetSubjectsFromDb(_context);
-
             Grade_AddGradeSelection_Model grade = new Grade_AddGradeSelection_Model();
-            grade.Students = studentList;
-            grade.Subjects = subjectList;
+
+            grade.Students = _studentManager.GetStudentsFromDB()
+                .Select(s => s.ToModel(gradeList)).ToList();
+
+            grade.Subjects = _subjectManager.GetSubjectsFromDB()
+                .Select(s => s.ToModel(gradeList)).ToList();
 
             return View(grade);
         }
@@ -126,24 +105,11 @@ namespace WebApplication1.Controllers
             ModelState.Remove(nameof(grade.Subjects));
 
             if (ModelState.IsValid)
-            {
-                var student = new Student();
-                var subject = new Subject();
+            {               
 
-                student = _context.Students.First(s => (s.Id == grade.SelectedStudentId));
-
-                subject = _context.Subjects.First(s => s.Id == grade.SelectedSubjectId);
-
-                var newGrade = new Grade
-                {
-                    Mark = grade.Mark,
-                    String = grade.Description,
-                    Student = student,
-                    Subject = subject
-                };
-
-                _context.Grades.Add(newGrade);
-                _context.SaveChanges();
+                Grade newGrade = new Grade();
+                newGrade.AddNewGradeToDb(_gradeManager, _studentManager,
+                    _subjectManager, grade);
 
                 return RedirectToAction("Index");
             }

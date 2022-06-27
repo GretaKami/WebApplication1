@@ -1,24 +1,35 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using WebApplication1.Context;
-using WebApplication1.Context.Entity;
+using DataAccess.Context;
+using DataAccess.Context.Entity;
 using WebApplication1.Models;
+using EJournalServices.Managers;
+using WebApplication1.Extensions;
 
 namespace WebApplication1.Controllers
 {
     public class StudentController : Controller
     {
-        private readonly EJournalDbContext _context;
+        private readonly IStudentManager _studentManager;
+        private readonly IGradeManager _gradeManager;
+
         private List<StudentModel> studentList;
-        public StudentController(EJournalDbContext context)
+        private List<GradeModel> gradeList;
+        public StudentController(IStudentManager studentManager,
+            IGradeManager gradeManager)
         {
-            _context = context;
-            studentList = new List<StudentModel>();
+            _studentManager = studentManager;
+            _gradeManager = gradeManager;
+
+            gradeList = _gradeManager.GetGradesFromDB().Select(g => g.ToModel())
+                .ToList();
+
+            studentList = _studentManager.GetStudentsFromDB()
+                .Select(s => s.ToModel(gradeList)).ToList();
         }
 
         
         public IActionResult Index(string sort)
         {
-            studentList = DataBase.GetStudentsFromDb(_context);
             
             if (sort == "Id")
             {
@@ -46,16 +57,9 @@ namespace WebApplication1.Controllers
             
             if (ModelState.IsValid)
             {
-                var newStudent = new Student
-                {
-                    Name = student.Name,
-                    Surname = student.Surname,
-                    YearOfBirth = student.YearOfBirth,
-                    Class = student.Class
-                };
+                var newStudent = new Student();
 
-                _context.Students.Add(newStudent);
-                _context.SaveChanges();
+                newStudent.AddNewStudentToDb(student, _studentManager);
 
                 return RedirectToAction("Index");
             }
@@ -64,12 +68,9 @@ namespace WebApplication1.Controllers
 
         [HttpGet]
         public IActionResult View(int id)
-        {
-            studentList = DataBase.GetStudentsFromDb(_context);
+        {          
+            StudentModel student = studentList.First(x => x.Id == id);
 
-            StudentModel student = new StudentModel();
-
-            student = studentList.First(x => x.Id == id);
 
             return View(student);
         }

@@ -9,7 +9,12 @@ namespace WebApplication1.Models
         [Required]
         public string Title { get; set; }
 
-        public List<Grade_WithoutSubject_Model> Grades { get; set; }
+        public List<GradeModel> Grades { get; set; }
+
+        public SubjectModel()
+        {
+            Grades = new List<GradeModel>();
+        }
                
     }
 }

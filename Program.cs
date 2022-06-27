@@ -1,10 +1,15 @@
 using Microsoft.EntityFrameworkCore;
-using WebApplication1.Context;
+using DataAccess.Context;
 using WebApplication1.Models;
+using EJournalServices.Managers;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddTransient<ISubjectManager, SubjectManager>();
+builder.Services.AddTransient<IStudentManager, StudentManager>();
+builder.Services.AddTransient<IGradeManager, GradeManager>();
+
 builder.Services.AddDbContext<EJournalDbContext>
     (options => options.UseSqlServer(builder.Configuration.GetConnectionString("EJournalDb")));
 
