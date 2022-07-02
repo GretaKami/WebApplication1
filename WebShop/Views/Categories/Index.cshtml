@@ -1,0 +1,18 @@
+﻿@model List<CategoryModel>
+<h1>Categories</h1>
+
+<table class="table">
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+    </tr>
+    @foreach (var category in Model)
+    {
+        <tr>
+            <td>@category.ID</td>
+            <td><a asp-area="" asp-controller="Categories" asp-action="View" asp-route-name="@category.Title">@category.Title</a> </td>
+        </tr>
+    }
+</table>
+
+
